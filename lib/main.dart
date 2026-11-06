@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'presentation/screens/pantalla_login.dart';
+
 
 void main() {
   runApp(const BatoiLogicApp());
@@ -19,7 +21,7 @@ class BatoiLogicApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const PantallaLogin(),
     );
   }
 }

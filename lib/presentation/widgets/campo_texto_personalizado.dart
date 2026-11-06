@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget{
+class CampoTextoPersonalizado extends StatelessWidget{
   final String etiqueta;
   final String textoAyuda;
   final IconData icono;
@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget{
   final Widget? iconFinal;
   final TextInputType tipoTeclado;
 
-  const CustomTextField({
+  const CampoTextoPersonalizado({
     super.key,
     required this.etiqueta,
     required this.textoAyuda,
