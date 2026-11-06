@@ -2,28 +2,28 @@ import '../models/pedido.dart';
 class PedidoRepository {
   //TODO: Datos simulados para probar
   static const List<Pedido> _pedidos=[
-    Comanda(id: 1001,
+    Pedido(id: 1001,
         destinatario: "Juan Martinez",
         direccion: "Avenida Pais Valencià,25",
         codigoPostal: "03802",
         ciudad: "Alcoy",
         estado: "EN RUTA",
     ),
-    Comanda(id: 1002,
+    Pedido(id: 1002,
       destinatario: "Maria Garcia",
       direccion: "Calle Mayor 12",
       codigoPostal: "03801",
       ciudad: "Alcoy",
       estado: "PENDIENTE",
     ),
-    Comanda(id: 1003,
+    Pedido(id: 1003,
       destinatario: "Laura Perez",
       direccion: "Calle San Nicolás,8",
       codigoPostal: "03803",
       ciudad: "Alcoy",
       estado: "ENTREGADO",
     ),
-    Comanda(
+    Pedido(
       id: 1004,
       destinatario: 'Carlos López',
       direccion: 'Calle Santa Rosa, 41',
@@ -31,7 +31,7 @@ class PedidoRepository {
       ciudad: 'Alcoy',
       estado: 'PREPARADO',
     ),
-    Comanda(
+    Pedido(
       id: 1005,
       destinatario: 'Ana Fernández',
       direccion: 'Calle Oliver, 16',
@@ -41,7 +41,7 @@ class PedidoRepository {
       incidencia: 'Cliente ausente',
     ),
   ];
-  List<Comanda>obtenerComandas(){
-    return _comandas;
+  List<Pedido>obtenerPedidos(){
+    return _pedidos;
   }
 }
