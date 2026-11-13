@@ -1,26 +1,27 @@
 import 'package:apprepartidores_flutter/data/models/pedido.dart';
 import 'package:flutter/material.dart';
 
-class pedidoCard extends StatelessWidget{
+class PedidoCard extends StatelessWidget {
   final Pedido pedido;
-  final VoidCallback onTap;
-  const pedidoCard({
-    super.key,
-    required this.pedido,
-    this.onTap,
-});
+  final VoidCallback? onTap;
+  const PedidoCard({super.key, required this.pedido, this.onTap});
   //TODO: Color según el estado del pedido
-Color obtenerColorEstado(String estado){
-  switch(estado){
-    case 'ENTREGADO': return const Color(0xFF15803D); //Verde
-    case 'EN RUTA': return const Color(0xFF2563EB); //Azul
-    case 'PENDIENTE':
-    case 'PREPARADO':
-    case 'EN PREPARACION': return const Color(0xFFB45309);//Naranja
-    case 'NO ENTREGADO': return const Color(0xFFB91C1C);//Rojo
-  default: return Colors.grey;
+  Color obtenerColorEstado(String estado) {
+    switch (estado) {
+      case 'ENTREGADO':
+        return const Color(0xFF15803D); //Verde
+      case 'EN RUTA':
+        return const Color(0xFF2563EB); //Azul
+      case 'PENDIENTE':
+      case 'PREPARADO':
+      case 'EN PREPARACION':
+        return const Color(0xFFB45309); //Naranja
+      case 'NO ENTREGADO':
+        return const Color(0xFFB91C1C); //Rojo
+      default:
+        return Colors.grey;
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,7 @@ Color obtenerColorEstado(String estado){
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 1,
       color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16),
@@ -79,10 +78,7 @@ Color obtenerColorEstado(String estado){
               // Destinatario
               Row(
                 children: [
-                  const Icon(
-                    Icons.person_outline,
-                    color: Color(0xFF166534),
-                  ),
+                  const Icon(Icons.person_outline, color: Color(0xFF166534)),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -110,7 +106,7 @@ Color obtenerColorEstado(String estado){
                   Expanded(
                     child: Text(
                       '${pedido.direccion}, '
-                          '${pedido.codigoPostal} ${pedido.ciudad}',
+                      '${pedido.codigoPostal} ${pedido.ciudad}',
                       style: const TextStyle(
                         fontSize: 13,
                         color: Color(0xFF64748B),

@@ -1,5 +1,6 @@
 import 'package:apprepartidores_flutter/data/models/pedido.dart';
 import 'package:apprepartidores_flutter/data/repositories/pedido_repository.dart';
+import 'package:apprepartidores_flutter/presentation/screens/pantalla_detalle_pedido.dart';
 import 'package:apprepartidores_flutter/presentation/widgets/pedido_card.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +106,20 @@ class PantallaPrincipal extends StatelessWidget {
                 ),
               )
             else
-              ...pedidos.take(3).map((pedido) => PedidoCard(pedido: pedido)),
+              ...pedidos.map(
+                (pedido) => PedidoCard(
+                  pedido: pedido,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetallePedidoScreen(pedido: pedido),
+                      ),
+                    );
+                  },
+                ),
+              ),
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import '../models/pedido.dart';
-class PedidoRepository {
+class PedidosRepository {
   //TODO: Datos simulados para probar
   static const List<Pedido> _pedidos=[
     Pedido(id: 1001,
