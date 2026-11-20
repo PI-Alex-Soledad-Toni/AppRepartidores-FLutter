@@ -8,12 +8,13 @@ void main() {
 
 class BatoiLogicApp extends StatelessWidget {
   const BatoiLogicApp({super.key});
-  
+  static const _titulo= 'BatoiLogic';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'BatoiLogic',
+      title: _titulo,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF5F7FA),
         colorScheme: ColorScheme.fromSeed(
@@ -21,7 +22,10 @@ class BatoiLogicApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const PantallaLogin(),
+      home: Scaffold(
+        appBar: AppBar(title: const Text(_titulo),),
+        body: const PantallaLogin(),
+      ),
     );
   }
 }

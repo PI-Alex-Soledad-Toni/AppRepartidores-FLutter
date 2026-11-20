@@ -1,7 +1,7 @@
 class ServicioAutenticacion {
   static bool iniciarSesion(String usuario, String contrasena){
-    const usuarioCorrecto = 'repartidor';
-    const contrasenaCorrecta = '123456';
+    const usuarioCorrecto = 'repartidor@mail.com';
+    const contrasenaCorrecta = '@Password1';
 
     return usuario == usuarioCorrecto && contrasena == contrasenaCorrecta;
   }
