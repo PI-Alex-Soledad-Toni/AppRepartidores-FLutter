@@ -1,3 +1,4 @@
+
 class Pedido {
   final int id;
   final String destinatario;
@@ -6,6 +7,8 @@ class Pedido {
   final String ciudad;
   final String estado;
   final String? incidencia;
+  final DateTime fecha;
+
   const Pedido({
     required this.id,
     required this.destinatario,
@@ -13,6 +16,7 @@ class Pedido {
     required this.codigoPostal,
     required this.ciudad,
     required this.estado,
+    required this.fecha,
     this.incidencia,
-});
+  });
 }

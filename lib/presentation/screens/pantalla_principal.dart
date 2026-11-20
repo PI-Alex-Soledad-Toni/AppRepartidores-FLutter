@@ -1,20 +1,41 @@
+
 import 'package:apprepartidores_flutter/data/models/pedido.dart';
 import 'package:apprepartidores_flutter/data/repositories/pedido_repository.dart';
 import 'package:apprepartidores_flutter/presentation/screens/pantalla_detalle_pedido.dart';
+import 'package:apprepartidores_flutter/presentation/screens/pedidos_screen.dart';
 import 'package:apprepartidores_flutter/presentation/widgets/pedido_card.dart';
 import 'package:flutter/material.dart';
 
 class PantallaPrincipal extends StatelessWidget {
   PantallaPrincipal({super.key});
+
   final PedidosRepository _repositorio = PedidosRepository();
+
   @override
   Widget build(BuildContext context) {
     final List<Pedido> pedidos = _repositorio.obtenerPedidos();
-    final int totalPedidos = pedidos.length;
-    final int pedidosEntregados = pedidos
-        .where((p) => p.estado == 'ENTREGADO')
+
+    // Obtenemos la fecha actual.
+    final DateTime hoy = DateTime.now();
+
+    // Filtramos los pedidos que corresponden al día de hoy.
+    final List<Pedido> pedidosDeHoy = pedidos.where((pedido) {
+      return pedido.fecha.year == hoy.year &&
+          pedido.fecha.month == hoy.month &&
+          pedido.fecha.day == hoy.day;
+    }).toList();
+
+    // Calculamos las estadísticas de los pedidos de hoy.
+    final int totalPedidos = pedidosDeHoy.length;
+
+    final int pedidosEntregados = pedidosDeHoy
+        .where((pedido) => pedido.estado == 'ENTREGADO')
         .length;
-    final int pedidosPendientes = totalPedidos - pedidosEntregados;
+
+    final int pedidosPendientes = pedidosDeHoy
+        .where((pedido) => pedido.estado != 'ENTREGADO')
+        .length;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
@@ -38,23 +59,27 @@ class PantallaPrincipal extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           children: [
             const Text(
-              '¡Hola repartidor',
+              '¡Hola, repartidor!',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF263746),
               ),
             ),
+
             const SizedBox(height: 6),
+
             const Text(
-              'Resumen de pedidos',
+              'Resumen de pedidos de hoy',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF263746),
               ),
             ),
+
             const SizedBox(height: 14),
+
             Row(
               children: [
                 Expanded(
@@ -85,29 +110,55 @@ class PantallaPrincipal extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 28),
-            const Text(
-              'Mis pedidos',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF263746),
-              ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Pedidos de hoy',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF263746),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PedidosScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Ver todos',
+                    style: TextStyle(
+                      color: Color(0xFF166534),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
+
             const SizedBox(height: 14),
-            if (pedidos.isEmpty)
+
+            if (pedidosDeHoy.isEmpty)
               const Center(
                 child: Padding(
                   padding: EdgeInsets.all(24),
                   child: Text(
-                    'No tienes pedidos asignados',
+                    'No tienes pedidos para hoy',
                     style: TextStyle(color: Color(0xFF64748B)),
                   ),
                 ),
               )
             else
-              ...pedidos.map(
-                (pedido) => PedidoCard(
+              ...pedidosDeHoy.map(
+                    (pedido) => PedidoCard(
                   pedido: pedido,
                   onTap: () {
                     Navigator.push(
@@ -164,7 +215,10 @@ class _TarjetaResumen extends StatelessWidget {
           Text(
             titulo,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+            style: const TextStyle(
+              fontSize: 11,
+              color: Color(0xFF64748B),
+            ),
           ),
         ],
       ),
