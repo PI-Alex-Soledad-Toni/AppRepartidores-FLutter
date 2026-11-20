@@ -18,7 +18,7 @@ class PantallaPrincipal extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        backgroundColor: Color(0xFF166534),
+        backgroundColor: const Color(0xFF166534),
         foregroundColor: Colors.white,
         elevation: 0,
         title: const Text(
