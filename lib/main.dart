@@ -8,7 +8,7 @@ class BatoiLogicApp extends StatelessWidget {
   const BatoiLogicApp({super.key});
 
   @override
-  Widget build(BuildContext context) {a
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BatoiLOGIC',
       debugShowCheckedModeBanner: false,
