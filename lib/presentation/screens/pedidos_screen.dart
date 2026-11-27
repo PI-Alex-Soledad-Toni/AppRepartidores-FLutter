@@ -21,12 +21,32 @@ class _PedidosScreenState extends State<PedidosScreen> {
   String _filtroSeleccionado = 'Todos';
   String _textoBusqueda = '';
 
-  late List<Pedido> _pedidos;
+  List<Pedido> _pedidos = [];
+  bool _cargando = true;
 
   @override
   void initState() {
     super.initState();
-    _pedidos = _repositorio.obtenerPedidos();
+    _cargarPedidos();
+  }
+  Future<void> _cargarPedidos() async{
+    try {
+      final pedidos = await _repositorio.cargarPedidos();
+      if (!mounted) return;
+      setState(() {
+        _pedidos = pedidos;
+        _cargando = false;
+      });
+    }catch(e){
+      if (!mounted) return;
+
+      setState(() {
+        _cargando = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al cargar los pedidos: $e'),),
+      );
+    }
   }
 
   @override
@@ -144,7 +164,13 @@ class _PedidosScreenState extends State<PedidosScreen> {
 
           // Lista de pedidos
           Expanded(
-            child: pedidosMostrados.isEmpty
+            child: _cargando
+                ? const Center(
+              child: CircularProgressIndicator(
+                color: Color(0xFF166534),
+              ),
+            )
+                : pedidosMostrados.isEmpty
                 ? const Center(
               child: Text(
                 'No se han encontrado pedidos',
@@ -167,9 +193,7 @@ class _PedidosScreenState extends State<PedidosScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            DetallePedidoScreen(
-                              pedido: pedido,
-                            ),
+                            DetallePedidoScreen(pedido: pedido),
                       ),
                     );
                   },

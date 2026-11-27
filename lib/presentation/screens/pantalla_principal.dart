@@ -6,20 +6,58 @@ import 'package:apprepartidores_flutter/presentation/screens/pedidos_screen.dart
 import 'package:apprepartidores_flutter/presentation/widgets/pedido_card.dart';
 import 'package:flutter/material.dart';
 
-class PantallaPrincipal extends StatelessWidget {
-  PantallaPrincipal({super.key});
+class PantallaPrincipal extends StatefulWidget {
+  const PantallaPrincipal({super.key});
 
+  @override
+  State<PantallaPrincipal> createState() => _PantallaPrincipalState();
+}
+
+class _PantallaPrincipalState extends State<PantallaPrincipal> {
   final PedidosRepository _repositorio = PedidosRepository();
+
+  List<Pedido> _pedidos = [];
+  bool _cargando = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarPedidos();
+  }
+
+  // Cargar los pedidos desde el archivo JSON.
+  Future<void> _cargarPedidos() async {
+    try {
+      final pedidos = await _repositorio.cargarPedidos();
+
+      if (!mounted) return;
+
+      setState(() {
+        _pedidos = pedidos;
+        _cargando = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      setState(() {
+        _cargando = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al cargar los pedidos: $e'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Pedido> pedidos = _repositorio.obtenerPedidos();
-
     // Obtenemos la fecha actual.
     final DateTime hoy = DateTime.now();
 
     // Filtramos los pedidos que corresponden al día de hoy.
-    final List<Pedido> pedidosDeHoy = pedidos.where((pedido) {
+    final List<Pedido> pedidosDeHoy = _pedidos.where((pedido) {
       return pedido.fecha.year == hoy.year &&
           pedido.fecha.month == hoy.month &&
           pedido.fecha.day == hoy.day;
@@ -55,7 +93,13 @@ class PantallaPrincipal extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: ListView(
+        child: _cargando
+            ? const Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFF166534),
+          ),
+        )
+            : ListView(
           padding: const EdgeInsets.all(20),
           children: [
             const Text(
@@ -152,7 +196,9 @@ class PantallaPrincipal extends StatelessWidget {
                   padding: EdgeInsets.all(24),
                   child: Text(
                     'No tienes pedidos para hoy',
-                    style: TextStyle(color: Color(0xFF64748B)),
+                    style: TextStyle(
+                      color: Color(0xFF64748B),
+                    ),
                   ),
                 ),
               )

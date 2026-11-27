@@ -19,4 +19,16 @@ class Pedido {
     required this.fecha,
     this.incidencia,
   });
+factory Pedido.fromJson(Map<String, dynamic> json) {
+  return Pedido(
+    id: json['id'],
+    destinatario: json['destinatario'],
+    direccion: json['direccion'],
+    codigoPostal: json['codigoPostal'],
+    ciudad: json['ciudad'],
+    estado: json['estado'],
+    incidencia: json['incidencia'],
+    fecha: DateTime.parse(json['fecha']),
+  );
+}
 }
