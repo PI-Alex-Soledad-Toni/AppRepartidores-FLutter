@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/services/servicio_autenticacion.dart';
+import 'pantalla_principal.dart';
+
 class PantallaLogin extends StatefulWidget{
   const PantallaLogin({Key? key}) : super(key: key);
 
@@ -115,6 +117,7 @@ class _PantallaLoginState extends State<PantallaLogin>{
               _formKey.currentState!.save();
               if(ServicioAutenticacion.iniciarSesion(_usuario, _contrasenya)){
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Bienvenido')));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PantallaPrincipal()));
               }else{
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usuario o contraseña incorrecta')) );
             }

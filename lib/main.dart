@@ -23,7 +23,37 @@ class BatoiLogicApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        appBar: AppBar(title: const Text(_titulo),),
+        appBar: AppBar(
+          backgroundColor: const  Color(0xFF166534),
+          elevation: 0,
+          toolbarHeight: MediaQuery.of(context).size.height / 3,
+          flexibleSpace: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: FractionallySizedBox(
+                    widthFactor: 0.6,
+                    heightFactor: 0.8,
+                    child: Image.asset(
+                      'assets/imagenes/logo_batoilogic.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                const Text(
+                  'ÁREA  DE REPARTIDOR',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        ),
         body: const PantallaLogin(),
       ),
     );
