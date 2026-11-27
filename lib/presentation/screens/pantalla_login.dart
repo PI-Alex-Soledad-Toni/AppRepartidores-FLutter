@@ -13,30 +13,87 @@ class _PantallaLoginState extends State<PantallaLogin>{
 
     final _formKey = GlobalKey<FormState>();
 
+
     String _usuario = '';
     String _contrasenya = '';
 
     @override
     Widget build(BuildContext context) {
-      return Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _eMailInput(),
-              _passwordInput(),
-              _loginButton(),
-            ],
-          )
-        ),
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final ancho = constraints.maxWidth;
+          final alto = MediaQuery.of(context).size.height;
+          final pantallaGrande = ancho >= 600;
+
+          return Center(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Tu jornada empieza aquí',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: const Color(0xFF166534),
+                      fontSize: pantallaGrande ? 32 : 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  Text(
+                    'Accede para gestionar tus entregas.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: const Color(0xFF657583),
+                      fontSize: pantallaGrande ? 18 : 14,
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  Wrap(
+                    spacing: 20,
+                    runSpacing: 10,
+                    children: [
+                      SizedBox(
+                        width: pantallaGrande
+                            ? (ancho - 60) / 2
+                            : ancho,
+                        child: _eMailInput(),
+                      ),
+                      SizedBox(
+                        width: pantallaGrande
+                            ? (ancho - 60) / 2
+                            : ancho,
+                        child: _passwordInput(),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  Center(
+                    child: _loginButton(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       );
     }
 
     Widget _eMailInput(){
       return Container(
-        margin: EdgeInsets.all(20.0),
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: MediaQuery.of(context).orientation == Orientation.portrait
+              ? 20
+              : 0,
+        ),
         child: TextFormField(
           decoration: InputDecoration(
             labelText: 'Usuario',
@@ -65,7 +122,12 @@ class _PantallaLoginState extends State<PantallaLogin>{
 
     Widget _passwordInput(){
       return Container(
-        margin: EdgeInsets.all(20.0),
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: MediaQuery.of(context).orientation == Orientation.portrait
+              ? 20
+              : 0,
+        ),
         child: TextFormField(
           obscureText: true,
           obscuringCharacter: '*',
@@ -109,20 +171,37 @@ class _PantallaLoginState extends State<PantallaLogin>{
     Widget _loginButton(){
       return Container(
         padding: EdgeInsets.all(10.0),
-        alignment: Alignment.centerRight,
-        child: ElevatedButton(
-          child: const Text('Iniciar Sesión'),
-          onPressed: () {
-            if(_formKey.currentState!.validate()){
-              _formKey.currentState!.save();
-              if(ServicioAutenticacion.iniciarSesion(_usuario, _contrasenya)){
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Bienvenido')));
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PantallaPrincipal()));
-              }else{
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usuario o contraseña incorrecta')) );
-            }
-            }
-          }
+        alignment: Alignment.center,
+        child: SizedBox(
+            width: 220,
+            height: 55,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF166534),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+                )
+              ),
+              onPressed: () {
+                if(_formKey.currentState!.validate()){
+                  _formKey.currentState!.save();
+                  if(ServicioAutenticacion.iniciarSesion(_usuario, _contrasenya)){
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Bienvenido')));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PantallaPrincipal()));
+                  }else{
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usuario o contraseña incorrecta')) );
+                  }
+                }
+              },
+              child: const Text(
+                'Iniciar sesión',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+          ),
         ),
       );
     }
