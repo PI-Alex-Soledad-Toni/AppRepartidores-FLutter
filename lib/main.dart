@@ -33,7 +33,6 @@ class BatoiLogicApp extends StatelessWidget {
         ),
       ),
 
-      // Pantalla de login del repartidor.
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFF166534),
